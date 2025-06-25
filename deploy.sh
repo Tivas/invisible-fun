@@ -18,3 +18,4 @@ docker push tivasl/eightt3
 # Deploy
 ssh $remoteServer mkdir -p $remoteDeployDir
 scp -r $start_script "$remotePlusDeployDir/$start_script"
+ssh $remoteServer "cd $remoteDeployDir && chmod +x $start_script && ./$start_script"

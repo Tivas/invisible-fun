@@ -2,30 +2,36 @@ use super::ContentView;
 use chrono::{DateTime, Days, Local, TimeZone};
 use fun_html::{
     attr::{self, style},
-    elt,
+    elt, html,
 };
 
 fn get_countdown_template() -> String {
-    elt::body(
+    fun_html::html(
         [],
-        elt::div(
-            [attr::id("content"), style("height:480;width:800")],
-            [
+        [
+            elt::head([], []),
+            elt::body(
+                [style("font-family: courier,monospace;")],
                 elt::div(
-                    [attr::style("align-self: center;")],
-                    [elt::h1(
-                        [style("text-align: center;")],
-                        [elt::text("text1")],
-                    )],
+                    [attr::id("content"), style("display:grid;height:480px;width:800px")],
+                    [
+                        elt::div(
+                            [attr::style("align-self: center;")],
+                            [elt::h1(
+                                [style("text-align: center;")],
+                                [elt::text("text1")],
+                            )],
+                        ),
+                        elt::h2(
+                            [style(
+                                "display: grid;justify-content: center;align-items: center;",
+                            )],
+                            [elt::text("text2")],
+                        ),
+                    ],
                 ),
-                elt::div(
-                    [style(
-                        "display: grid;justify-content: center;align-items: center;",
-                    )],
-                    [elt::text("text2")],
-                ),
-            ],
-        ),
+            ),
+        ],
     )
     .to_string()
 }

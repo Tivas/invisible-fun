@@ -35,6 +35,7 @@ pub fn render(local_route: &str) -> Result<Vec<u8>, Box<dyn Error>> {
         Some(viewport),
         true,
     )?;
+    println!("picture taken");
     Ok(picture_data)
 }
 

@@ -13,7 +13,7 @@ fn main() {
     print!("starting server on port: {} ", port);
     let srv = Server::http(format!("0.0.0.0:{}", port)).unwrap();
     println!("done");
-    let cd = Arc::new(Countdown::new(String::from("next sandbox in:"), 2025, 09, 01).unwrap());
+    let cd = Arc::new(Countdown::new(String::from("next sandbox in"), 2025, 09, 01).unwrap());
     let server = Arc::new(srv);
 
     loop {
@@ -22,10 +22,9 @@ fn main() {
         let request = this_server.recv().unwrap();
 
         println!(
-            "received request! method: {:?}, url: {:?}, headers: {:?}",
+            "received request! method: {:?}, url: {:?}",
             request.method(),
-            request.url(),
-            request.headers()
+            request.url()
         );
 
         let local_link_clone = local_link.clone();
