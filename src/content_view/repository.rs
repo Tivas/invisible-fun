@@ -8,6 +8,8 @@ use crate::content_view::{
     countdown::{self, Countdown},
 };
 
+
+
 pub struct DisplayContent {
     img: Vec<u8>,
     valid_until: DateTime<Local>,
@@ -16,7 +18,7 @@ pub struct DisplayContent {
 impl DisplayContent {
     pub fn zero() -> Self {
         DisplayContent {
-            img: vec![0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            img: include_bytes!("under_construction.png").to_vec(),
             valid_until: Local::now(),
         }
     }
