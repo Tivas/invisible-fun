@@ -1,20 +1,20 @@
-use std::sync::Arc;
+use std::sync::{Arc};
 
 use tiny_http::{Response, Server};
 
-use crate::content_view::{ContentView, countdown::Countdown};
+use crate::content_view::{ContentView, repository};
 
 mod content_view;
-mod html_renderer;
 
 fn main() {
     let port = "1032";
-    let local_link = format!("http://localhost:{}", port);
-    print!("starting server on port: {} ", port);
-    let srv = Server::http(format!("0.0.0.0:{}", port)).unwrap();
+    let content_part = "/content/";
+    let content_url = format!("http://localhost:{port}{content_part}");
+    print!("starting server on port: {port} ");
+    let srv = Server::http(format!("0.0.0.0:{port}")).unwrap();
     println!("done");
-    let cd = Arc::new(Countdown::new(String::from("next sandbox in"), 2025, 09, 01).unwrap());
     let server = Arc::new(srv);
+    let repository = Arc::new(repository::Repository::new(content_url.clone()));
 
     loop {
         let this_server = server.clone();
@@ -27,19 +27,21 @@ fn main() {
             request.url()
         );
 
-        let local_link_clone = local_link.clone();
-        let countdown_clone: Arc<Countdown> = cd.clone();
-
+        let local_rep = repository.clone();
+        let local_rep_update = repository.clone();
         match request.url() {
-            "/" => std::thread::spawn(move || {
-                let route = format!("{}/content/", local_link_clone);
-                let data = html_renderer::render(&route).unwrap();
-                request.respond(Response::from_data(data)).unwrap()
-            }),
+            "/" => {
+                std::thread::spawn(move || {
+                    request
+                        .respond(Response::from_data(local_rep.get_content()))
+                        .unwrap()
+                });
+                std::thread::spawn(move || local_rep_update.update_content())
+            }
             "/content/" => std::thread::spawn(move || {
-                request
-                    .respond(Response::from_data(countdown_clone.clone().to_html()))
-                    .unwrap()
+                let crate::content_view::Content::Html(content) =
+                    local_rep.get_content_view().materialize();
+                request.respond(Response::from_data(content)).unwrap()
             }),
             _ => std::thread::spawn(|| request.respond(Response::from_string("404")).unwrap()),
         };

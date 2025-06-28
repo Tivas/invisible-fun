@@ -1,5 +1,12 @@
 pub mod countdown;
+pub mod repository;
+pub mod html_renderer;
+
+pub enum Content {
+    Html(String),
+    // Img(Vec<u8>),
+}
 
 pub trait ContentView {
-    fn to_html(&self) -> String;
+    fn materialize(&self) -> Content;
 }

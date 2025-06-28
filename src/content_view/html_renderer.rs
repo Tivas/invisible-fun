@@ -9,7 +9,7 @@ pub fn render(local_route: &str) -> Result<Vec<u8>, Box<dyn Error>> {
     let browser = Browser::default()?;
 
     println!("creating tab");
-    println!("navigating to: {}", local_route);
+    println!("navigating to: {local_route}");
     let tab = browser.new_tab_with_options(CreateTarget {
         url: String::from(local_route),
         height: Some(600),
@@ -46,6 +46,5 @@ mod chrometests {
     #[test]
     fn hejsa() {
         // TODO: fix test
-        assert!(true)
     }
 }
