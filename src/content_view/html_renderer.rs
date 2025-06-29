@@ -1,8 +1,8 @@
 use std::error::Error;
 
+use headless_chrome::Browser;
 use headless_chrome::protocol::cdp::Page;
 use headless_chrome::protocol::cdp::Target::CreateTarget;
-use headless_chrome::{Browser};
 
 pub fn render(local_route: &str) -> Result<Vec<u8>, Box<dyn Error>> {
     println!("creating browser");

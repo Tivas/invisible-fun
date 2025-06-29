@@ -1,14 +1,9 @@
-use std::{sync::RwLock};
-
-use chrono::{DateTime, Local};
-// use headless_chrome::protocol::cdp::Network::PrivateNetworkRequestPolicy;
-
 use crate::content_view::{
     self,
     countdown::{self, Countdown},
 };
-
-
+use chrono::{DateTime, Local};
+use std::sync::RwLock;
 
 pub struct DisplayContent {
     img: Vec<u8>,

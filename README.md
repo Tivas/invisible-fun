@@ -1,5 +1,7 @@
 # Invisible Fun
 
+> AI-slob readme follows:
+
 This project is a small, high-concurrency web server written in Rust that dynamically generates images from HTML content. It's designed to serve a webpage that shows a countdown, render that page using a headless browser, and then serve the resulting image.
 
 The primary purpose is to display dynamic, nicely formatted content (like a countdown) in environments that can only display images, such as e-ink displays or simple image widgets.

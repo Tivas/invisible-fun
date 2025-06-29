@@ -1,4 +1,4 @@
-use std::sync::{Arc};
+use std::sync::Arc;
 
 use tiny_http::{Response, Server};
 
@@ -28,7 +28,6 @@ fn main() {
         );
 
         let local_rep = repository.clone();
-        let local_rep_update = repository.clone();
         match request.url() {
             "/" => {
                 std::thread::spawn(move || {
@@ -36,6 +35,7 @@ fn main() {
                         .respond(Response::from_data(local_rep.get_content()))
                         .unwrap()
                 });
+                let local_rep_update = repository.clone();
                 std::thread::spawn(move || local_rep_update.update_content())
             }
             "/content/" => std::thread::spawn(move || {

@@ -15,7 +15,10 @@ fn get_countdown_template() -> String {
             elt::body(
                 [style("font-family: courier,monospace;")],
                 elt::div(
-                    [attr::id("content"), style("display:grid;height:480px;width:800px")],
+                    [
+                        attr::id("content"),
+                        style("display:grid;height:480px;width:800px"),
+                    ],
                     [
                         elt::div(
                             [attr::style("align-self: center;")],
@@ -47,10 +50,7 @@ impl Countdown {
     pub fn new(title: String, year: i32, month: u32, day: u32) -> Option<Self> {
         let date = Local.with_ymd_and_hms(year, month, day, 0, 0, 0);
         match date {
-            chrono::offset::LocalResult::Single(d) => Some(Countdown {
-                title,
-                date: d,
-            }),
+            chrono::offset::LocalResult::Single(d) => Some(Countdown { title, date: d }),
             _ => None,
         }
     }
@@ -61,7 +61,7 @@ impl Countdown {
 }
 
 impl ContentView for Countdown {
-    fn materialize (&self) -> Content{
+    fn materialize(&self) -> Content {
         let template_text = get_countdown_template();
         let data = template_text
             .replace("text1", &self.title)
