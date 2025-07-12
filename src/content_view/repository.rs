@@ -1,7 +1,7 @@
-use crate::content_view::{
+use crate::{content_view::{
     self,
     countdown::{self, Countdown},
-};
+}, graphics_util};
 use chrono::{DateTime, Local};
 use std::sync::RwLock;
 
@@ -12,8 +12,13 @@ pub struct DisplayContent {
 
 impl DisplayContent {
     pub fn zero() -> Self {
+        let img = include_bytes!("under_construction.png").to_vec();
         DisplayContent {
-            img: include_bytes!("under_construction.png").to_vec(),
+            img: graphics_util::resize_png_image(
+                img,
+                800,
+                480,
+            ),
             valid_until: Local::now(),
         }
     }

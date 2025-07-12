@@ -1,10 +1,11 @@
-use std::sync::Arc;
+use std::{str::FromStr, sync::Arc};
 
 use tiny_http::{Response, Server};
 
 use crate::content_view::{ContentView, repository};
 
 mod content_view;
+mod graphics_util;
 
 fn main() {
     let port = "1032";
@@ -31,8 +32,12 @@ fn main() {
         match request.url() {
             "/" => {
                 std::thread::spawn(move || {
+                    let header = tiny_http::Header::from_str("content-type: image/png")
+                        .unwrap();
+                    let mut res = Response::from_data(local_rep.get_content());
+                    res.add_header(header);
                     request
-                        .respond(Response::from_data(local_rep.get_content()))
+                        .respond(res)
                         .unwrap()
                 });
                 let local_rep_update = repository.clone();
