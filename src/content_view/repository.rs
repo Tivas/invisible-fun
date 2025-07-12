@@ -27,7 +27,7 @@ pub struct Repository {
 
 impl Repository {
     pub fn new(content_url: String) -> Self {
-        let cd = Countdown::new(String::from("popermo sandbox in"), 2025, 10, 1).unwrap();
+        let cd = Countdown::new(String::from("popermo PolicyCORE sandbox in"), 2025, 10, 1).unwrap();
         Repository {
             content_url,
             views: cd,
