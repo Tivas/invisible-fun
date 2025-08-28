@@ -1,6 +1,4 @@
 pub mod countdown;
-pub mod html_renderer;
-pub mod repository;
 
 pub enum Content {
     Html(String),
