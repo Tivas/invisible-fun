@@ -25,13 +25,6 @@ impl Orchistrator {
     }
 
     pub fn run(&self) {
-          // println!("content is outdated, updating now");
-        // let content_new = content_view::html_renderer::render(&self.content_url).unwrap();
-        // let mut cache_lock_write = self.cache.write().unwrap();
-        // cache_lock_write.img = content_new;
-        // cache_lock_write.valid_until = Local::now() + chrono::Duration::hours(4);
-        // drop(cache_lock_write); // Explicitly drop the write lock
-        // println!("content updated");
         loop {
             if self.repository.cache_outdated() {
                 //choose
