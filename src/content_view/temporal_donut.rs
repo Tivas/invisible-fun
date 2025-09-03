@@ -88,14 +88,14 @@ fn get_temporal_donut_html_content_div(
                 elt::p([], elt::text("of the way there!")),
             ],
         ),
-        elt::div([attr::style("float;right"), attr::id("my_datawiz")], []),
-        elt::text(
+        elt::div([attr::style("float:right;"), attr::id("my_dataviz")], []),
+        elt::raw_unsafe(
             script_string
         )
     ]
 }
 
-struct TemporalDonut {
+pub struct TemporalDonut {
     start_date: DateTime<Local>,
     end_date: DateTime<Local>,
 }

@@ -11,7 +11,7 @@ use fun_html::{
 fn get_countdown_html_content_div(header_text: String, body_text: String) -> Vec<Element> {
         vec![
             elt::div(
-                [attr::style("align-self: center;")],
+                [attr::style("display:grid;align-self: center;")],
                 [elt::h1(
                     [style("text-align: center;")],
                     [elt::text(header_text)],

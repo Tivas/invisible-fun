@@ -1,6 +1,10 @@
 use std::sync::{Arc, RwLock};
 
+use chrono::TimeZone;
+use image::flat::View;
+
 use crate::content_view::countdown::Countdown;
+use crate::content_view::temporal_donut::TemporalDonut;
 use crate::content_view::{Content, ContentView};
 use crate::repository::{self, DisplayContent};
 use crate::renderers::html_renderer;
@@ -18,6 +22,7 @@ impl Orchistrator {
             content_url,
             repository,
         }
+                // let view = Countdown::new(String::from("popermo PolicyCORE sandbox in"), 2025, 10, 1).unwrap();
     }
 
     pub fn get_materialized_html(&self) -> String {
@@ -28,7 +33,10 @@ impl Orchistrator {
         loop {
             if self.repository.cache_outdated() {
                 //choose
-                let view = Countdown::new(String::from("popermo PolicyCORE sandbox in"), 2025, 10, 1).unwrap();
+                let view = TemporalDonut::new(
+                    chrono::Local.ymd(2025, 4, 1).and_hms(0, 0, 0),
+                    chrono::Local.ymd(2027, 5, 17).and_hms(01, 59, 59),
+                );
                 //generate
                 let content  = match view.materialize() {
                     Content::Html(html_content) => {
@@ -51,15 +59,3 @@ impl Orchistrator {
         }
     }
 }
-
-// pub fn orch_loop() {'a
-
-        // println!("content is outdated, updating now");
-        // let content_new = content_view::html_renderer::render(&self.content_url).unwrap();
-        // let mut cache_lock_write = self.cache.write().unwrap();
-        // cache_lock_write.img = content_new;
-        // cache_lock_write.valid_until = Local::now() + chrono::Duration::hours(4);
-        // drop(cache_lock_write); // Explicitly drop the write lock
-        // println!("content updated");
-
-// }

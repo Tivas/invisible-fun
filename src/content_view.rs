@@ -27,7 +27,7 @@ fn get_html_template() -> fn(Vec<Element>) -> Document {
                     elt::div(
                         [
                             attr::id("content"),
-                            style("display:grid;height:480px;width:800px"),
+                            style("height:480px;width:800px"),
                         ],
                         content,
                     ),
