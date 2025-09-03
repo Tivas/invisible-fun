@@ -1,0 +1,21 @@
+<link rel="stylesheet" href="https://unpkg.com/d3-milestones/build/d3-milestones.css">
+<script src="https://unpkg.com/d3-milestones/build/d3-milestones.min.js"></script>
+
+<div id="timeline"></div>
+
+<script>
+  milestones('#timeline')
+    .mapping({
+      'timestamp': 'time',
+      'text': 'title'
+    })
+    // .parseTime('%Y-%B')
+    .aggregateBy('month')
+    .render([
+      { time: '2025-04', title: 'first.' },
+      { time: '2025-05', title: 'second.' },
+      { time: '2026-06', title: 'third.' },
+      { time: '2026-10',  title: 'fourth.' },
+      { time: '2027-05',  title: 'fifth.' }
+    ]);
+</script>
