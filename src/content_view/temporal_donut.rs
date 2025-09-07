@@ -47,7 +47,7 @@ const JAVASCRIPT_STRING: &str = r###"
         .data(data_ready)
         .join('path')
         .attr('d', arcGenerator)
-        .attr('fill', function (d) { return (color(d.data[0])) })
+        .attr('fill', 'white')
         .attr("stroke", "black")
         .style("stroke-width", "2px")
         .style("opacity", 0.7)

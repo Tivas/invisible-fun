@@ -48,7 +48,8 @@ impl Orchistrator {
                         // render html content
                         html_renderer::render(&self.content_url).unwrap()
                     }
-                };
+                }
+                ;
                 self.repository.update_content(DisplayContent::new(
                     content,
                     chrono::Local::now() + chrono::Duration::hours(4),
