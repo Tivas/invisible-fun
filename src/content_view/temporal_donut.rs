@@ -1,10 +1,10 @@
 use crate::content_view::{Content, get_html_template};
 
 use super::ContentView;
-use chrono::{DateTime, Days, Local, TimeZone};
+use chrono::{DateTime, Local};
 use fun_html::{
     Element,
-    attr::{self, style},
+    attr::{self},
     elt,
 };
 

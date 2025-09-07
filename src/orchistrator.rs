@@ -6,13 +6,13 @@ use image::flat::View;
 use crate::content_view::countdown::Countdown;
 use crate::content_view::temporal_donut::TemporalDonut;
 use crate::content_view::{Content, ContentView};
-use crate::repository::{self, DisplayContent};
 use crate::renderers::html_renderer;
+use crate::repository::{self, DisplayContent};
 
 pub struct Orchistrator {
     materialized_html: RwLock<String>,
     content_url: String,
-    repository: Arc<repository::Repository>
+    repository: Arc<repository::Repository>,
 }
 
 impl Orchistrator {
@@ -22,7 +22,7 @@ impl Orchistrator {
             content_url,
             repository,
         }
-                // let view = Countdown::new(String::from("popermo PolicyCORE sandbox in"), 2025, 10, 1).unwrap();
+        // let view = Countdown::new(String::from("popermo PolicyCORE sandbox in"), 2025, 10, 1).unwrap();
     }
 
     pub fn get_materialized_html(&self) -> String {
@@ -34,11 +34,13 @@ impl Orchistrator {
             if self.repository.cache_outdated() {
                 //choose
                 let view = TemporalDonut::new(
-                    chrono::Local.ymd(2025, 4, 1).and_hms(0, 0, 0),
-                    chrono::Local.ymd(2027, 5, 17).and_hms(01, 59, 59),
+                    chrono::Local.with_ymd_and_hms(2025, 4, 1, 0, 0, 0).unwrap(),
+                    chrono::Local
+                        .with_ymd_and_hms(2027, 5, 17, 1, 59, 59)
+                        .unwrap(),
                 );
                 //generate
-                let content  = match view.materialize() {
+                let content = match view.materialize() {
                     Content::Html(html_content) => {
                         let mut write_lock = self.materialized_html.write().unwrap();
                         *write_lock = html_content;
@@ -48,13 +50,11 @@ impl Orchistrator {
                         // render html content
                         html_renderer::render(&self.content_url).unwrap()
                     }
-                }
-                ;
+                };
                 self.repository.update_content(DisplayContent::new(
                     content,
                     chrono::Local::now() + chrono::Duration::hours(4),
                 ));
-
             }
             std::thread::sleep(std::time::Duration::from_secs(3600)); // Check every hour
         }
