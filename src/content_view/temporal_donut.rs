@@ -71,27 +71,35 @@ fn get_temporal_donut_html_content_div(
     let remaining_days = total_days - elapsed_days;
 
     let elapsed_percentage = (elapsed_days as f64 / total_days as f64) * 100.0;
-    let script_string= format!("<script>{}</script>", JAVASCRIPT_STRING
-        .replace("__elapsed__", &elapsed_days.to_string())
-        .replace("__remaining__", &remaining_days.to_string()));
+    let script_string = format!(
+        "<script>{}</script>",
+        JAVASCRIPT_STRING
+            .replace("__elapsed__", &elapsed_days.to_string())
+            .replace("__remaining__", &remaining_days.to_string())
+    );
 
     vec![
         elt::script([attr::src("https://d3js.org/d3.v6.js")], ""),
         elt::div(
             [attr::style("float:left;")],
             [
-                elt::p([], [elt::text("Temporal progress on PolicyCORE")]),
+                elt::h3([], [elt::text("Temporal progress on PolicyCORE")]),
+                // elt::p([], [elt::text("Temporal progress on PolicyCORE")]),
+                elt::br([]),
+                elt::br([]),
+                elt::br([]),
                 elt::br([]),
                 elt::br([]),
                 elt::p([], elt::text("we are")),
-                elt::p([], elt::text(format!("{:.2}%", elapsed_percentage))),
+                elt::p(
+                    [attr::style("font-weight: bold;")],
+                    elt::text(format!("{elapsed_percentage:.2}%")),
+                ),
                 elt::p([], elt::text("of the way there!")),
             ],
         ),
         elt::div([attr::style("float:right;"), attr::id("my_dataviz")], []),
-        elt::raw_unsafe(
-            script_string
-        )
+        elt::raw_unsafe(script_string),
     ]
 }
 
@@ -125,7 +133,7 @@ impl ContentView for TemporalDonut {
 mod temporal_donut_tests {
     use chrono::{Duration, Local};
 
-    use crate::content_view::{temporal_donut::TemporalDonut, Content, ContentView};
+    use crate::content_view::{Content, ContentView, temporal_donut::TemporalDonut};
 
     #[test]
     fn materialize_test() {
@@ -134,8 +142,7 @@ mod temporal_donut_tests {
         let temporal_donut = TemporalDonut::new(start_date, end_date);
         let content = temporal_donut.materialize();
         assert!(match content {
-            Content::Html(html) =>
-                html.contains("<script>"),
+            Content::Html(html) => html.contains("<script>"),
             _ => false,
         });
     }
