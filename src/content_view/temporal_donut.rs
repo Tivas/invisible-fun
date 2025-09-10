@@ -118,6 +118,10 @@ impl TemporalDonut {
 }
 
 impl ContentView for TemporalDonut {
+    fn get_name(&self) -> String {
+        format!("donut: {}", self.start_date)
+    }
+
     fn materialize(&self) -> Content {
         Content::Html(
             get_html_template()(get_temporal_donut_html_content_div(

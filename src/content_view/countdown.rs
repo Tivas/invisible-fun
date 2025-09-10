@@ -9,21 +9,21 @@ use fun_html::{
 };
 
 fn get_countdown_html_content_div(header_text: String, body_text: String) -> Vec<Element> {
-        vec![
-            elt::div(
-                [attr::style("display:grid;align-self: center;")],
-                [elt::h1(
-                    [style("text-align: center;")],
-                    [elt::text(header_text)],
-                )],
-            ),
-            elt::h2(
-                [style(
-                    "display: grid;justify-content: center;align-items: center;",
-                )],
-                [elt::text(body_text)],
-            )
-        ]
+    vec![
+        elt::div(
+            [attr::style("display:grid;align-self: center;")],
+            [elt::h1(
+                [style("text-align: center;")],
+                [elt::text(header_text)],
+            )],
+        ),
+        elt::h2(
+            [style(
+                "display: grid;justify-content: center;align-items: center;",
+            )],
+            [elt::text(body_text)],
+        ),
+    ]
 }
 
 pub struct Countdown {
@@ -46,11 +46,17 @@ impl Countdown {
 }
 
 impl ContentView for Countdown {
+    fn get_name(&self) -> String {
+        self.title.clone()
+    }
     fn materialize(&self) -> Content {
-        Content::Html(get_html_template()(get_countdown_html_content_div(
-            self.title.clone(),
-            format!("{} Days", self.days_from_now()),
-        )).to_string())
+        Content::Html(
+            get_html_template()(get_countdown_html_content_div(
+                self.title.clone(),
+                format!("{} Days", self.days_from_now()),
+            ))
+            .to_string(),
+        )
     }
 }
 

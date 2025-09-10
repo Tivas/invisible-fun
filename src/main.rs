@@ -2,7 +2,7 @@ use std::{str::FromStr, sync::Arc};
 
 use tiny_http::{Response, Server};
 
-use crate::{repository::DisplayContent};
+use crate::repository::DisplayContent;
 
 mod content_view;
 mod graphics_util;
@@ -30,7 +30,6 @@ fn main() {
         orchistrator_repo,
     ));
 
-
     let local_orchistrator = orchistrator.clone();
     std::thread::spawn(move || {
         local_orchistrator.run();
@@ -47,7 +46,7 @@ fn main() {
             request.url()
         );
 
-        let orchistrator_content= orchistrator.clone();
+        let orchistrator_content = orchistrator.clone();
         let local_rep = repository.clone();
         match request.url() {
             "/" => std::thread::spawn(move || {
@@ -56,12 +55,10 @@ fn main() {
                 res.add_header(header);
                 request.respond(res).unwrap()
             }),
-            "/content/" => {
-                std::thread::spawn(move || {
-                    let content = orchistrator_content.get_materialized_html();
-                    request.respond(Response::from_data(content)).unwrap()
-                })
-            }
+            "/content/" => std::thread::spawn(move || {
+                let content = orchistrator_content.get_materialized_html();
+                request.respond(Response::from_data(content)).unwrap()
+            }),
             _ => std::thread::spawn(|| request.respond(Response::from_string("404")).unwrap()),
         };
     }
